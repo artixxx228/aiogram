@@ -16,6 +16,103 @@ Changelog
 
 .. towncrier release notes start
 
+3.2.0 (2023-11-24)
+===================
+
+Features
+--------
+
+- Introduced Scenes feature that helps you to simplify user interactions using Finite State Machine.
+  Read more about 👉 :ref:`Scenes <Scenes>`.
+  `#1280 <https://github.com/aiogram/aiogram/issues/1280>`_
+- Added the new FSM strategy :code:`CHAT_TOPIC`, which sets the state for the entire topic in the chat, also works in private messages and regular groups without topics.
+  `#1343 <https://github.com/aiogram/aiogram/issues/1343>`_
+
+
+Bugfixes
+--------
+
+- Fixed :code:`parse_mode` argument in the in :code:`Message.send_copy` shortcut. Disable by default.
+  `#1332 <https://github.com/aiogram/aiogram/issues/1332>`_
+- Added ability to get handler flags from filters.
+  `#1360 <https://github.com/aiogram/aiogram/issues/1360>`_
+- Fixed a situation where a :code:`CallbackData` could not be parsed without a default value.
+  `#1368 <https://github.com/aiogram/aiogram/issues/1368>`_
+
+
+Improved Documentation
+----------------------
+
+- Corrected grammatical errors, improved sentence structures, translation for migration 2.x-3.x
+  `#1302 <https://github.com/aiogram/aiogram/issues/1302>`_
+- Minor typo correction, specifically in module naming + some grammar.
+  `#1340 <https://github.com/aiogram/aiogram/issues/1340>`_
+- Added `CITATION.cff` file for automatic academic citation generation.
+  Now you can copy citation from the GitHub page and paste it into your paper.
+  `#1351 <https://github.com/aiogram/aiogram/issues/1351>`_
+- Minor typo correction in middleware docs.
+  `#1353 <https://github.com/aiogram/aiogram/issues/1353>`_
+
+
+Misc
+----
+
+- Fixed ResourceWarning in the tests, reworked :code:`RedisEventsIsolation` fixture to use Redis connection from :code:`RedisStorage`
+  `#1320 <https://github.com/aiogram/aiogram/issues/1320>`_
+- Updated dependencies, bumped minimum required version:
+
+  - :code:`magic-filter` - fixed `.resolve` operation
+  - :code:`pydantic` - fixed compatibility (broken in 2.4)
+  - :code:`aiodns` - added new dependency to the :code:`fast` extras (:code:`pip install aiogram[fast]`)
+  - *others...*
+  `#1327 <https://github.com/aiogram/aiogram/issues/1327>`_
+- Prevent update handling task pointers from being garbage collected, backport from 2.x
+  `#1331 <https://github.com/aiogram/aiogram/issues/1331>`_
+- Updated :code:`typing-extensions` package version range in dependencies to fix compatibility with :code:`FastAPI`
+  `#1347 <https://github.com/aiogram/aiogram/issues/1347>`_
+- Introduce Python 3.12 support
+  `#1354 <https://github.com/aiogram/aiogram/issues/1354>`_
+- Speeded up CallableMixin processing by caching references to nested objects and simplifying kwargs assembly.
+  `#1357 <https://github.com/aiogram/aiogram/issues/1357>`_
+- Added :code:`pydantic` v2.5 support.
+  `#1361 <https://github.com/aiogram/aiogram/issues/1361>`_
+- Updated :code:`thumbnail` fields type to :code:`InputFile` only
+  `#1372 <https://github.com/aiogram/aiogram/issues/1372>`_
+
+
+3.1.1 (2023-09-25)
+===================
+
+Bugfixes
+--------
+
+- Fixed `pydantic` version <2.4, since 2.4 has breaking changes.
+  `#1322 <https://github.com/aiogram/aiogram/issues/1322>`_
+
+
+3.1.0 (2023-09-22)
+===================
+
+Features
+--------
+
+- Added support for custom encoders/decoders for payload (and also for deep-linking).
+  `#1262 <https://github.com/aiogram/aiogram/issues/1262>`_
+- Added :class:`aiogram.utils.input_media.MediaGroupBuilder` for media group construction.
+  `#1293 <https://github.com/aiogram/aiogram/issues/1293>`_
+- Added full support of `Bot API 6.9 <https://core.telegram.org/bots/api-changelog#september-22-2023>`_
+  `#1319 <https://github.com/aiogram/aiogram/issues/1319>`_
+
+
+Bugfixes
+--------
+
+- Added actual param hints for `InlineKeyboardBuilder` and `ReplyKeyboardBuilder`.
+  `#1303 <https://github.com/aiogram/aiogram/issues/1303>`_
+- Fixed priority of events isolation, now user state will be loaded only after lock is acquired
+  `#1317 <https://github.com/aiogram/aiogram/issues/1317>`_
+
+
 3.0.0 (2023-09-01)
 ===================
 

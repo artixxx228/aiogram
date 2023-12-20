@@ -3,6 +3,7 @@ from typing import Any, Dict, Optional, Type, Union
 
 import pytest
 
+from aiogram.enums import ParseMode
 from aiogram.methods import (
     CopyMessage,
     DeleteMessage,
@@ -35,6 +36,7 @@ from aiogram.methods import (
     UnpinChatMessage,
 )
 from aiogram.types import (
+    UNSET_PARSE_MODE,
     Animation,
     Audio,
     Chat,
@@ -688,9 +690,43 @@ class TestMessage:
             return
 
         method = message.send_copy(chat_id=42)
-        if method:
-            assert isinstance(method, expected_method)
+        assert isinstance(method, expected_method)
+        if hasattr(method, "parse_mode"):
+            # default parse mode in send_copy
+            assert method.parse_mode is None
         # TODO: Check additional fields
+
+    @pytest.mark.parametrize(
+        "custom_parse_mode",
+        [
+            UNSET_PARSE_MODE,
+            *list(ParseMode),
+        ],
+    )
+    @pytest.mark.parametrize(
+        "message,expected_method",
+        [
+            [TEST_MESSAGE_TEXT, SendMessage],
+            [TEST_MESSAGE_AUDIO, SendAudio],
+            [TEST_MESSAGE_ANIMATION, SendAnimation],
+            [TEST_MESSAGE_DOCUMENT, SendDocument],
+            [TEST_MESSAGE_PHOTO, SendPhoto],
+            [TEST_MESSAGE_VIDEO, SendVideo],
+            [TEST_MESSAGE_VOICE, SendVoice],
+        ],
+    )
+    def test_send_copy_custom_parse_mode(
+        self,
+        message: Message,
+        expected_method: Optional[Type[TelegramMethod]],
+        custom_parse_mode: Optional[str],
+    ):
+        method = message.send_copy(
+            chat_id=42,
+            parse_mode=custom_parse_mode,
+        )
+        assert isinstance(method, expected_method)
+        assert method.parse_mode == custom_parse_mode
 
     def test_edit_text(self):
         message = Message(

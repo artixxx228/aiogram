@@ -67,7 +67,7 @@ test-coverage-view:
 # Docs
 # =================================================================================================
 
-locales := en uk_UA
+locales := uk_UA
 locale_targets := $(addprefix docs-serve-, $(locales))
 locales_pot := _build/gettext
 docs_dir := docs
@@ -78,8 +78,7 @@ docs-gettext:
 .PHONY: docs-gettext
 
 docs-serve:
-	#rm -rf docs/_build
-	sphinx-autobuild --watch aiogram/ --watch CHANGELOG.rst --watch README.rst docs/ docs/_build/ $(OPTS)
+	hatch run docs:sphinx-autobuild --watch aiogram/ --watch CHANGELOG.rst --watch README.rst docs/ docs/_build/ $(OPTS)
 .PHONY: docs-serve
 
 $(locale_targets): docs-serve-%:
@@ -101,7 +100,7 @@ bump:
 
 .PHONY: towncrier-build
 towncrier-build:
-	towncrier build --yes
+	hatch run docs:towncrier build --yes
 
 .PHONY: towncrier-draft
 towncrier-draft:
@@ -120,3 +119,16 @@ release:
 	git add .
 	git commit -m "Release $(shell poetry version -s)"
 	git tag v$(shell hatch version -s)
+
+
+butcher_version := 0.1.23
+
+butcher-install:
+	pip install -U git+ssh://git@github.com/aiogram/butcher.git@v$(butcher_version)
+.PHONY: butcher-install
+
+butcher:
+	butcher parse
+	butcher refresh
+	butcher apply all
+.PHONY: butcher
